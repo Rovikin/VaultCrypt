@@ -2,6 +2,7 @@
 secure_seed adalah tool enkripsi dan dekripsi seed phrase (frasa pemulihan wallet) atau file apapun dengan keamanan tinggi. Dirancang untuk berjalan di Termux (Android), dan menggunakan algoritma modern: Argon2id + XChaCha20-Poly1305.
 
 ## 🚀 Cara Install di Termux
+### untuk kode C++
 ```pkg update && pkg upgrade -y
 pkg install git clang libsodium make
 git clone https://github.com/Rovikin/VaultCrypt.git
@@ -89,4 +90,19 @@ Simpan hasil terenkripsi di folder aman, backup ke dua tempat
 Jangan pernah menyimpan passphrase di tempat yang tidak terenkripsi! Atau lebih aman untuk menggunakan passphrase yang anda hafalkan diluar kepala namun tetap dengan gabungan huruf besar + kecil + angka + karakter.
 # 🛡️ Dibuat untuk melindungi hal paling berharga di dunia kripto: frasa pemulihan.
 
-Stay paranoid. Stay sovereign. 🧠⚔️
+# Untuk python
+implementasinya jauh lebih sederhana. Ikuti baris perintah berikut ini:
+```
+pkg update && pkg upgrade -y
+pkg install python git
+pip install pycryptodome
+pip install argon2-cffi
+git clone https://github.com/Rovikin/VaultCrypt.git
+```
+
+jalankan program 
+```
+python enc.py
+```
+
+lalu ikuti instruksi seperti yang ada pada program diatas.
