@@ -1,72 +1,92 @@
-🔐 VaultCrypt - Enkripsi File Kuat, Ringan, & Aman
-=================================================
+# 🔐 VaultCrypt – Enkripsi Seed Phrase dengan Argon2 + XChaCha20
+secure_seed adalah tool enkripsi dan dekripsi seed phrase (frasa pemulihan wallet) atau file apapun dengan keamanan tinggi. Dirancang untuk berjalan di Termux (Android), dan menggunakan algoritma modern: Argon2id + XChaCha20-Poly1305.
 
-**VaultCrypt** adalah script Python ringan yang mengamankan file pribadi (seperti seed phrase, dokumen rahasia, dll) menggunakan enkripsi **AES-256-GCM** yang dipadukan dengan **Argon2id** — salah satu key derivation function paling kuat saat ini.
-
-Dirancang khusus untuk berjalan mulus di **Termux (Android)** tanpa root, simpel, dan *no trace left behind*.
-
----
-
-✨ Fitur Utama
--------------
-
-* 🔒 AES-256 GCM (authenticated encryption)
-* 🧠 Argon2id KDF dengan 256MB RAM & 4 threads
-* ✅ Checksum SHA256 untuk verifikasi integritas
-* 🧂 Salt unik per file
-* 💣 File plaintext langsung ditimpa
-* 📁 Tidak butuh keyfile eksternal
-
-📦 Instalasi di Termux
----------------------
-
-```
-pkg update && pkg upgrade
-pkg install python clang openssl libffi
-pip install pycryptodome argon2-cffi
-
+## 🚀 Cara Install di Termux
+```pkg update && pkg upgrade -y
+pkg install git clang libsodium make
+git clone https://github.com/Rovikin/VaultCrypt.git
 ```
 
-🚀 Cara Penggunaan
------------------
+# 📂 Struktur File
 
-### 🔐 Enkripsi
+##### main.cpp
+##### makefile 
+##### README.md
 
-```
-python enc2.py
-(E)ncrypt or (D)ecrypt ? e
-Input your file: rahasia.txt
-Input your passphrase: ****
-Confirm your passphrase: ****
-```
+# 🛠️ Build Tool
 
-### 🔓 Dekripsi
+Cukup jalankan:
 
 ```
-python enc2.py
-(E)ncrypt or (D)ecrypt ? d
-Input your file: rahasia.txt
-Input your passphrase: ****
+make
 ```
 
-⚠️ **Catatan:** File plaintext akan langsung ditimpa setelah dienkripsi. Tidak ada backup otomatis.
+Ini akan menghasilkan file: 
 
-🛡️ Keamanan
------------
+```
+secure_seed
+```
 
-* ✅ AES-256 + GCM = aman + integritas
-* 🧠 Argon2id = KDF anti brute-force
-* 🔐 SHA256 = verifikasi & anti tamper
-* 🔥 Tidak ada file kunci eksternal → hanya passphrase
+# 🔐 Cara Enkripsi
 
-💡 Rekomendasi
--------------
+buat file dengan perintah misalnya:
+```
+nano seed
+```
+Lalu isi teks seed phrase kedalamnya, misalnya:
 
-* Gunakan passphrase kuat (12+ karakter random)
-* Uji coba dulu sebelum pakai untuk data penting
-* Backup offline tetap direkomendasikan
+```
+canvas amount poverty major solid stereo shallow provide wonder enhance base neglect
+```
+Tekan ctrl + x + y
 
-📜 Lisensi
----------
+Jalankan program:
+```
+./secure_seed
 
-MIT License — bebas digunakan & dimodifikasi. Gunakan dengan tanggung jawab.
+```
+Pilih opsi
+``` 
+E (enkripsi)
+```
+Masukkan nama file misalnya:
+```
+ seed
+```
+
+Masukkan dan konfirmasi passphrase
+Output terenkripsi akan disimpan sebagai
+```
+seed.enc
+```
+
+# 🔓 Cara Dekripsi
+Jalankan:
+```
+./secure_seed
+```
+Pilih opsi:
+```
+D (dekripsi)
+```
+Masukkan nama file misalnya:
+```
+seed.enc
+```
+Masukkan passphrase
+Jika benar, seed phrase akan ditampilkan di layar
+Jika salah 3x, file akan dihapus otomatis!
+### ⚠️ Catatan: Hanya passphrase yang diperlukan untuk membuka file. Tidak ada keyfile. Jangan pernah lupa passphrase atau kehilangan file terenkripsi.
+### 🔥 Penting: File terenkripsi akan terhapus otomatis jika salah memasukkan passphrase 3 kali.
+# 🔒 Teknologi yang Digunakan
+Argon2id – fungsi derivasi kunci yang tahan terhadap brute-force dan side-channel
+XChaCha20-Poly1305 – cipher stream authenticated encryption modern
+libsodium – pustaka kriptografi modern & battle-tested
+
+# 📣 Saran
+Gunakan passphrase acak minimal 12 karakter ( gabungan huruf besar/kecil + angka + simbol)
+Simpan hasil terenkripsi di folder aman, backup ke dua tempat
+Jangan pernah menyimpan passphrase di tempat yang tidak terenkripsi! Atau lebih aman untuk menggunakan passphrase yang anda hafalkan diluar kepala namun tetap dengan gabungan huruf besar + kecil + angka + karakter.
+# 🛡️ Dibuat untuk melindungi hal paling berharga di dunia kripto: frasa pemulihan.
+
+Stay paranoid. Stay sovereign. 🧠⚔️
