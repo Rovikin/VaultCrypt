@@ -6,6 +6,7 @@ secure_seed adalah tool enkripsi dan dekripsi seed phrase (frasa pemulihan walle
 ```pkg update && pkg upgrade -y
 pkg install git clang libsodium make
 git clone https://github.com/Rovikin/VaultCrypt.git
+cd VaultCrypt
 ```
 
 # 📂 Struktur File
