@@ -37,7 +37,7 @@ nano seed
 Lalu isi teks seed phrase kedalamnya, misalnya:
 
 ```
-canvas amount poverty major solid stereo shallow provide wonder enhance base neglect
+treat health ankle sudden brick state mercy hamster attend twenty require risk
 ```
 Tekan ctrl + x + y
 
@@ -92,7 +92,8 @@ Jika benar, seed phrase akan ditampilkan di layar
 [*] Writing to file...
 ------------------------------------------------------------
 ✅ Encrypted → seed.enc
-~/enc $ ./vault
+
+~/enc $ ./secure_seed
 🔐 (E)ncrypt or (D)ecrypt? [E/D]: d
 📂 Enter encrypted file (.enc): seed.enc
 [*] Reading encrypted file...
