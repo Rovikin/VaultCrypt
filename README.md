@@ -131,6 +131,7 @@ pkg install python git
 pip install pycryptodome
 pip install argon2-cffi
 git clone https://github.com/Rovikin/VaultCrypt.git
+cd VaultCrypt
 ```
 
 jalankan program 
@@ -139,3 +140,5 @@ python enc.py
 ```
 
 lalu ikuti instruksi seperti yang ada pada program diatas.
+### Saran dan kritik
+Saran dan kritik anda akan sangat bermanfaat bagi saya. Terimakasih
