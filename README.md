@@ -76,7 +76,36 @@ seed.enc
 ```
 Masukkan passphrase
 Jika benar, seed phrase akan ditampilkan di layar
-Jika salah 3x, file akan dihapus otomatis!
+
+#### Contoh hasil encrypt & decrypt:
+```
+~/enc $ ./vault
+🔐 (E)ncrypt or (D)ecrypt? [E/D]: e         📂 Enter file to encrypt: seed              [*] Reading file...                         🔑 Enter passphrase:                        🔁 Confirm passphrase:
+[*] Generating salt and nonce...
+[*] Deriving key with Argon2id (this may take a while)                                  [*] Locking key in memory...
+[*] Encrypting...
+[*] Packing encrypted data...
+[*] Writing to file...                      
+                                            ------------------------------------------------------------                            ✅ Encrypted → seed.enc
+~/enc $ ./vault
+🔐 (E)ncrypt or (D)ecrypt? [E/D]: d
+📂 Enter encrypted file (.enc): seed.enc
+[*] Reading encrypted file...
+[*] Checking magic bytes...
+[*] Extracting salt and nonce...
+🔑 Enter passphrase:
+[*] Deriving key with Argon2id (this may take a while)
+[*] Locking key...
+[*] Decrypting...
+
+
+------------------------------------------------------------
+===========================================
+treat health ankle sudden brick state mercy hamster attend twenty require risk
+
+===========================================
+~/enc $
+```
 ### ⚠️ Catatan: Hanya passphrase yang diperlukan untuk membuka file. Tidak ada keyfile. Jangan pernah lupa passphrase atau kehilangan file terenkripsi.
 ### 🔥 Penting: File terenkripsi akan terhapus otomatis jika salah memasukkan passphrase 3 kali.
 # 🔒 Teknologi yang Digunakan
