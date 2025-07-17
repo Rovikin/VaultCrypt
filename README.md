@@ -142,7 +142,7 @@ python enc.py
 
 lalu ikuti instruksi seperti yang ada pada program diatas.
 
-## Password Hash Generator
+# Password Hash Generator
 
 Tool ini adalah untuk menderivasi plaintext password dengan hashing plaintext dengan argon2id untuk derivasi, SHA-512 + HMAC sebagai chaining tambahan, encoding ke BaseX (ASCII printable), menjadikan outputnya menjadi 4096 karakter.
 Tidak perlu menyimpan hasil derivasi password. Cukup ingat password dan salt. Simpan file 'password_hash_generator.cpp' atau kunjungi repo ini untuk mendapatkannya lagi.
