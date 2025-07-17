@@ -10,6 +10,7 @@
 #include <chrono>
 #include <thread>
 
+// === Konstanta ===
 #define MAGIC "\xDE\xAD\xBE\xEF"
 #define MAGIC_LEN 4
 #define SALT_LEN crypto_pwhash_SALTBYTES
@@ -17,10 +18,12 @@
 #define KEY_LEN crypto_aead_xchacha20poly1305_ietf_KEYBYTES
 #define TAG_LEN crypto_aead_xchacha20poly1305_ietf_ABYTES
 
-#define ARGON2_RAM_LIMIT (1024ULL * 1024 * 1024) // 1GB RAM
-#define ARGON2_TIME_COST 6
-#define ARGON2_PARALLELISM 4
+// === PARAMETER ARGON2 LITE ===
+#define ARGON2_RAM_LIMIT (64ULL * 1024 * 1024)     // 64 MB
+#define ARGON2_TIME_COST 2                         // Iterasi
+#define ARGON2_PARALLELISM 1                       // Thread
 
+// === UI Helper ===
 void print_centered(const std::string& msg) {
     std::cout << std::string(43, '=') << "\n";
     std::cout << msg << "\n";
@@ -32,11 +35,10 @@ void print_log(const std::string& msg) {
     std::this_thread::sleep_for(std::chrono::milliseconds(300));
 }
 
-void show_loading(const std::string& message, int duration_ms = 4000) {
+void show_loading(const std::string& message, int duration_ms = 3000) {
     const char spinner[] = "|/-\\";
     std::cout << "[*] " << message << " ";
     std::cout.flush();
-
     auto start = std::chrono::steady_clock::now();
     int i = 0;
     while (std::chrono::steady_clock::now() - start < std::chrono::milliseconds(duration_ms)) {
@@ -55,7 +57,6 @@ std::string prompt_hidden(const std::string& prompt) {
     std::cout << prompt;
     termios oldt, newt;
     std::string password;
-
     tcgetattr(STDIN_FILENO, &oldt);
     newt = oldt;
     newt.c_lflag &= ~ECHO;
@@ -66,6 +67,7 @@ std::string prompt_hidden(const std::string& prompt) {
     return password;
 }
 
+// === File I/O ===
 std::vector<unsigned char> read_file(const std::string& f) {
     std::ifstream ifs(f, std::ios::binary);
     return std::vector<unsigned char>((std::istreambuf_iterator<char>(ifs)), {});
@@ -76,6 +78,7 @@ void write_file(const std::string& f, const std::vector<unsigned char>& v) {
     ofs.write((char*)v.data(), v.size());
 }
 
+// === Key Derivation ===
 bool derive_key(unsigned char *key, const std::string& pass, const unsigned char *salt) {
     return crypto_pwhash(key, KEY_LEN,
         pass.c_str(), pass.size(),
@@ -86,7 +89,7 @@ bool derive_key(unsigned char *key, const std::string& pass, const unsigned char
 }
 
 bool derive_key_verbose(unsigned char *key, const std::string& pass, const unsigned char *salt) {
-    show_loading("Deriving key with Argon2id (this may take a while)", 4000);
+    show_loading("🔄 Deriving key with Argon2id...", 3000);
     return derive_key(key, pass, salt);
 }
 
@@ -102,6 +105,7 @@ void unlock_key(unsigned char *key, size_t len) {
     munlock(key, len);
 }
 
+// === Enkripsi ===
 void encrypt_file() {
     std::string infile;
     std::cout << "📂 Enter file to encrypt: ";
@@ -173,6 +177,7 @@ void encrypt_file() {
     unlock_key(key, KEY_LEN);
 }
 
+// === Dekripsi ===
 bool decrypt_file() {
     std::string infile;
     std::cout << "📂 Enter encrypted file (.enc): ";
@@ -220,7 +225,8 @@ bool decrypt_file() {
         int ok = crypto_aead_xchacha20poly1305_ietf_decrypt(
             pt.data(), &plen, nullptr, ct.data(), ct.size(), nullptr, 0, nonce, key);
 
-        secure_zero(key, KEY_LEN); unlock_key(key, KEY_LEN);
+        secure_zero(key, KEY_LEN);
+        unlock_key(key, KEY_LEN);
 
         if (ok == 0) {
             clear_screen_preserve_logs();
@@ -236,6 +242,7 @@ bool decrypt_file() {
     return false;
 }
 
+// === Main ===
 int main() {
     if (sodium_init() < 0) {
         std::cerr << "❌ libsodium init failed.\n";
